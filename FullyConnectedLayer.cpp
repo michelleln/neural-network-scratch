@@ -4,7 +4,9 @@
 
 class FullyConnectedLayer {
 public:
-    FullyConnectedLayer (int noNodes): noNodes(noNodes) {
-        
+    FullyConnectedLayer (int nodesIn, nodesOut): nodesIn(nodesIn), nodesOut(nodesOut) {
+        vector<double> weights;
+        vector<double> output;
+
     }
 }
