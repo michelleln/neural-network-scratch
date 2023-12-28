@@ -21,20 +21,27 @@ public:
     explicit Matrix(constant std::vector<int> size) {
         noRows = size[0];
         noColumns = size[1];
-        data = std::vector<T> (noRows * noColumns);
+        data = std::vector<T>(noRows * noColumns);
     }
 
     // Initiate a matrix with the same entry
-    explicit Matrix(constant std::vector<int> size, T init) {
-
+    explicit Matrix(constant std::vector<int> size, T temp) {
+        noRows = size[0];
+        noColumns = size[1];
+        data = std::vector<T> (noRows * noColumns);
+        for (T & i : data) { // iterates over every reference i of type T in data
+            i = temp;
+        } 
     }
-    
+
     // Initiate a matrix with all given entries
     explicit Matrix(constant std::vector<int> size, constant std::vector<T> &_data) {
         noRows = size[0];
         noColumns = size[1];
-
+        data = _data;
     }
+
+    
 };
 
 #endif
