@@ -42,7 +42,10 @@ public:
     }
 
     Matrix& add(constant Matrix &m2) {
-
+        for (int i = 0; i < data.size(); i++) {
+            data[i] += m2.data[i];
+        }
+        return *this;
     }
 };
 
