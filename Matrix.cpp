@@ -6,9 +6,9 @@
 template <typename T> class Matrix {
 public:
     // Class members
-    std::vector<T> data;
     int noRows;
     int noColumns;
+    std::vector<T> data;
 
     // Default constructor
     Matrix() {
@@ -17,7 +17,24 @@ public:
         data = std::vector<T>(0); // empty vector
     }
 
+    // Initiate a matrix with all 0 entries
+    explicit Matrix(constant std::vector<int> size) {
+        noRows = size[0];
+        noColumns = size[1];
+        data = std::vector<T> (noRows * noColumns);
+    }
+
+    // Initiate a matrix with the same entry
+    explicit Matrix(constant std::vector<int> size, T init) {
+
+    }
     
+    // Initiate a matrix with all given entries
+    explicit Matrix(constant std::vector<int> size, constant std::vector<T> &_data) {
+        noRows = size[0];
+        noColumns = size[1];
+
+    }
 };
 
 #endif
