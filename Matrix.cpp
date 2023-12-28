@@ -41,7 +41,9 @@ public:
         data = _data;
     }
 
-    
+    Matrix& add(constant Matrix &m2) {
+
+    }
 };
 
 #endif
