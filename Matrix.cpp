@@ -94,6 +94,18 @@ public:
         *this = transpose(this);
         return *this;
     }
+
+    // Operation on all elements
+    Matrix& opElement (T (*func)(T)) {
+        for (int i = 0; i < data.size(); i++) {
+            data[i] = func(data[i]);
+        }
+        return *this;
+    }
+
+    static Matrix opElement(const Matrix &m, T (*func)(T)) {
+        return Matrix(m).opElement(func);
+    }
 };
 
 #endif
