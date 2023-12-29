@@ -49,7 +49,8 @@ public:
         return *this;
     }
 
-    sta
+    // Hadamard product (element-wise multiplication) to help computing derivatives with recursion from layers to layers
+    Matrix& hProduct(cons)
 };
 
 #endif
