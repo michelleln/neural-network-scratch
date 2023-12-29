@@ -67,11 +67,11 @@ public:
 
     // Multiply two matrices by dot product
     Matrix multiply(constant Matrix &m2) const {
-        Matrix<float> result = Matrix<float>({noRows, m2.noColumns}, 0);
+        Matrix result({noRows, m2.noColumns});
         for (int i = 0; i < result.noRows, i++){
             for (int j = 0; j < result.noColumns; j++) {
                 for (int order = 0; order < noColumns; order++)
-                    result.data[i * result.noRows + j] = m1.data[order * noRows + i] * m2.data[m2.noRows * j + order];
+                    result.data[j * result.noRows + i] = data[order * noRows + i] * m2.data[m2.noRows * j + order];
             }
         }
         return result;
@@ -82,6 +82,14 @@ public:
     }
 
     // Transpose a matrix
+    static Matrix (const Matrix &m) {
+        Matrix result({m.noRows, m.noColumns});
+        for (int i = 0; i < result.noRows; i++) {
+            for (int j = 0; j < result.noColumns; j++){
+                result.data[result.noRows * j + i] = m.data[m.noRows * i + j];
+            }
+        }
+    }
     Matrix& transpose {
         *this = transpose(this);
         return *this;
