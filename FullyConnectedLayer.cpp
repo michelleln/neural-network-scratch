@@ -1,6 +1,6 @@
-#import <iostream>
-#import <vector>
-#import <cmath>
+#include <iostream>
+#include <vector>
+#include <cmath>
 
 class FullyConnectedLayer {
 public:
@@ -11,7 +11,7 @@ public:
         vector<double> output;
 
         for (int i = 0; i < noNodes, i++){
-            
+
         }
 
     }

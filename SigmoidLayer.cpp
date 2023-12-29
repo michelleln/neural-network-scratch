@@ -1,4 +1,7 @@
-#import <iostream>
-#import <vector>
-#import <cmath>
+#include <cmath>
+#include "Matrix.cpp"
 
+class SigmoidLayer{
+public:
+    Matrix<float> 
+}
