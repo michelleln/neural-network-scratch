@@ -48,9 +48,22 @@ public:
         }
         return *this;
     }
+    // Make a static method for every instance method
+    static Matrix add(constant Matrix &m1, constant Matrix &m2) {
+        return Matrix(m1).add(m2);
+    }
 
-    // Hadamard product (element-wise multiplication) to help computing derivatives with recursion from layers to layers
-    Matrix& hProduct(cons)
+    // Hadamard product (element-wise multiplication) to help computing derivatives by recursion from layers to layers
+    Matrix& hProduct(constant Matrix &m2) {
+        for (int i = 0; i < data.size(); i++) {
+            data[i] *= m2.data[i];
+        }
+        return *this;
+    }
+
+    static Matrix hProduct(constant Matrix &m1, constant Matrix &m2) {
+        return Matrix(m1).hProduct(m2);
+    }
 };
 
 #endif
