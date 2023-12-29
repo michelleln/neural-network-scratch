@@ -14,17 +14,22 @@ private:
 
     Matrix<float> weightsDerivatives;
     Matrix<float> biasesDerivatives;
+
+    TanhLayer activation;
     
 public:
+    // default constructor
     FullyConnectedLayer (int _noInputNodes, int _noOutputNodes) {
-        vector<double> weights;
-        vector<double> biases;
+        noInputNodes = _noInputNodes;
+        noOutputNodes = _noOutputNodes;
 
-        vector<double> output;
+        // In default constructor initialize all the weights to 1
+        weights = Matrix<float>({noOutputNodes, noInputNodes}, 1);
+        biases = Matrix<float>({noOutputNodes, 1}, 0);
 
-        for (int i = 0; i < noNodes, i++){
-
-        }
-
+        weightsDerivatives = Matrix<float>({noOutputNodes, noInputNodes}, 0);
+        biasesDerivatives = Matrix<float>({noOutputNodes, 1}, 0);
     }
+
+    FullyConnectedLayer (Matrix<float> weights, )
 }

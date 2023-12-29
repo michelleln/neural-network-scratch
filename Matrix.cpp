@@ -64,6 +64,28 @@ public:
     static Matrix hProduct(constant Matrix &m1, constant Matrix &m2) {
         return Matrix(m1).hProduct(m2);
     }
+
+    // Multiply two matrices by dot product
+    Matrix multiply(constant Matrix &m2) const {
+        Matrix<float> result = Matrix<float>({noRows, m2.noColumns}, 0);
+        for (int i = 0; i < result.noRows, i++){
+            for (int j = 0; j < result.noColumns; j++) {
+                for (int order = 0; order < noColumns; order++)
+                    result.data[i * result.noRows + j] = m1.data[order * noRows + i] * m2.data[m2.noRows * j + order];
+            }
+        }
+        return result;
+    }
+
+    static Matrix multiply(const Matrix &m1, const Matrix &m2) {
+        return m1.multiply(m2);
+    }
+
+    // Transpose a matrix
+    Matrix& transpose {
+        *this = transpose(this);
+        return *this;
+    }
 };
 
 #endif
