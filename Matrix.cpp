@@ -92,7 +92,7 @@ public:
         for (int i = 0; i < result.noRows, i++){
             for (int j = 0; j < result.noColumns; j++) {
                 for (int order = 0; order < noColumns; order++)
-                    result.data[j * result.noRows + i] = data[order * noRows + i] * m2.data[m2.noRows * j + order];
+                    result.data[i * result.noColumns + j] = data[i * noColumns + order] * m2.data[m2.noColumns * order + j];
             }
         }
         return result;
@@ -105,7 +105,7 @@ public:
     // Transpose a matrix
     static Matrix (const Matrix &m) {
         Matrix result({m.noRows, m.noColumns});
-        if (m.numRows == 1 || m.numCols == 1) { // if matrix is a vector, just swap width/height
+        if (m.numRows == 1 || m.numCols == 1) { // if matrix is a vector, just swap width/height (copy data)
             res.data = m.data;
             return res;
         }
