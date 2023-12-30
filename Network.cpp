@@ -38,9 +38,14 @@ public:
         return outputs;
     }
 
-    // use mean-squared error loss
+    // get loss using mean-squared error loss
     static float geLoss (Matrix<float> &output, Matrix<float> &expectedOutput) {
-        for (int )
+        float totalError = 0;
+        for (int i = 0; i < expectedOutput.noRows; i++) {
+            totalError += (float)std::pow(output.get(i, 0) - expectedOutput.get(i, 0), 2.0f);
+        }
     }
+
+    
 }
 
