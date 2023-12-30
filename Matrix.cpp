@@ -104,8 +104,9 @@ public:
 
     // Transpose a matrix
     static Matrix (const Matrix &m) {
-        Matrix result({m.noRows, m.noColumns});
-        if (m.numRows == 1 || m.numCols == 1) { // if matrix is a vector, just swap width/height (copy data)
+        Matrix result({m.noColumns, m.noRows});
+        if (m.noRows == 1 || m.noColumns == 1) { // if matrix is a vector, just swap width/height (copy data)
+            int temp = m.
             res.data = m.data;
             return res;
         }
