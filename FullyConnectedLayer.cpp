@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <cmath>
 
 #include "Matrix.cpp"
@@ -62,6 +61,16 @@ public:
         weightDerivatives.add(Matrix<float>::multiply(outputDerivatives, Matrix<float>::transpose(input)));
 
         Matrix<float> inputDerivatives = Matrix<float>::multiply(weights, outputDerivatives);
-        inputDerivatives.divide()
+        inputDerivatives.divide(weights.noRows);
+
+        return inputDerivatives;
+    }
+
+    void applyDerivatives(float learnRate) {
+        biases.subtract(biasDerivatives.multiply(learnRate));
+        biasesDerivatives.setAll(0);
+
+        weights.subtract(weightDerivatives.multiply(learnRate));
+        weightDerivatives.setAll(0);
     }
 }
