@@ -43,6 +43,7 @@ public:
     }
 
     // initialize random weights and biases in range [-0.5, 0.5] with uniform distribution
+    // Mersenne Twister pseudorandom number generator
     void randomLayer (std::mt19937 gen) {
         std::uniform_real_distribution<> weightDistribution(-0.5, 0.5);
         std::uniform_real_distribution<> biasDistribution(-0.5, 0.5);
