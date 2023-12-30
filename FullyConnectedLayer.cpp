@@ -42,4 +42,17 @@ public:
         weightDerivatives = Matrix<float>({numNeurons,numInputs},0);
         biasDerivatives = Matrix<float>({numNeurons,1},0);
     }
+
+    // get outputt for the layer
+    Matrix<float> forwardPropagate (const Matrix<float> &input){
+        Matrix<float> output = weights.multiply(input);
+        output.add(biases);
+        return TanhLayer::forwardPropagate(output);
+    }
+
+    // get derivatives of cost with respect to each of the weights in this current layer, which is obtained by
+    // multiplying such derivative of the layer following it and the input of this layer (by chain rule)
+    Matrix<float> getDerivatives (const Matrix<float> &input) {
+        
+    }
 }
