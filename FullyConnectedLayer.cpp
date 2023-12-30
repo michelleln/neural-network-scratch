@@ -49,11 +49,12 @@ public:
 
         for (int i = 0; i < noInputNodes; i++) {
             for (int j = 0; j < noOutputNodes, j++) {
-                weights.set(i, j, static_cast<float>(weightDistribution(gen)));
+                weights.set(i, j, (float)(weightDistribution(gen)));
             }
-            biases.set(i, 0, static_cast<float>(biasDistribution(gen)));
+            biases.set(i, 0, (float)(biasDistribution(gen)));
         }
     }
+
     // get output for the layer
     Matrix<float> forwardPropagate (const Matrix<float> &input){
         Matrix<float> output = weights.multiply(input);
