@@ -8,6 +8,7 @@ class Network {
 private:
     std::vector<FullyConnectedLayer> layers;
 public:
+    // constructor
     explicit FullyConnectedLayer (std::vector<std::vector<int>> dimensions) {
         // dimensions contain number of input nodes & output nodes in pairs for each of the layers
         for (int i = 0; i < dimensions.size(); i++) {
@@ -15,6 +16,31 @@ public:
         }
     }
 
-    
+    // assign random weights & biases to each layer
+    void randomNetwork {
+        std::random_device rd; //obtain a seed for the random number generator
+        std::mt19937 gen(rd()); //initializes a Mersenne Twister pseudorandom number generator with the seed obtained from the random device
+
+        for (int i = 0; i < layers.size(); i++) {
+            //pass the gen object eeach layer to allow the layers to generate random weights and biases using the same random number generator across layers
+            layers[i].randomLayer(gen); 
+        }
+    }
+
+    // get all outputs of all layers
+    // input is a vector with size equal to noInputNodes of 1st layer, similarly output size equals nOutputNodes of last layer
+    std::vector<Matrix<float>> runNetwork(Matrix<float> input) {
+        std::vector<Matrix<float>> outputs;
+        for (int i = 0; i < layers.size(); i++) {
+            input = layers[i].forwardPropagate(input);
+            outputs.push_back(input);
+        }
+        return outputs;
+    }
+
+    // use mean-squared error loss
+    static float geLoss (Matrix<float> &output, Matrix<float> &expectedOutput) {
+        for (int )
+    }
 }
 
