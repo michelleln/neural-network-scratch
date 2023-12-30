@@ -44,8 +44,9 @@ public:
         for (int i = 0; i < expectedOutput.noRows; i++) {
             totalError += (float)std::pow(output.get(i, 0) - expectedOutput.get(i, 0), 2.0f);
         }
+        return totalError / (float)expectedOutputs.numRows;
     }
 
-    
+    // get 
 }
 
