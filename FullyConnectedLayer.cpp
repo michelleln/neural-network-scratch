@@ -51,15 +51,17 @@ public:
     }
 
     // get derivatives of cost wrt the input of this layer so that it can be used to recursively compute derivatives
-    // of previous layer
+    // of input of previous layer
     // update derivatives of cost with respect to each of the weights & biases in this current layer, obtained by
     // multiplying such derivative of the layer following it and the input of this layer (by chain rule)
     Matrix<float> getDerivatives (const Matrix<float> &input, const Matrix<float> &nextLayerDerivatives) {
         // account for sigmoid derivatives of the input
         Matrix<float> outputDerivatives = TanhLayer::getDerivatives(output, nextLayerDerivatives);
 
-        biases
-        weightDerivatives.add(outputDerivatives.multiply)
+        biasesDerivatives.add(outputDerivatives);
+        weightDerivatives.add(Matrix<float>::multiply(outputDerivatives, Matrix<float>::transpose(input)));
 
+        Matrix<float> inputDerivatives = Matrix<float>::multiply(weights, outputDerivatives);
+        inputDerivatives.divide()
     }
 }
