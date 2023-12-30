@@ -1,6 +1,7 @@
 #include <cmath>
 #include "Matrix.cpp"
 
+// Separate these activation operations into its own layer to make fully connected layer more organized
 class TanhLayer{
 public:
     static Matrix<float> forwardPropagate(const Matrix<float> &output) {
