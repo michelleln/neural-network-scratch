@@ -18,7 +18,7 @@ private:
     TanhLayer activation;
     
 public:
-    // default constructor
+    // constructor when we only know the dimension of the layer
     FullyConnectedLayer (int _noInputNodes, int _noOutputNodes) {
         noInputNodes = _noInputNodes;
         noOutputNodes = _noOutputNodes;
@@ -31,5 +31,15 @@ public:
         biasesDerivatives = Matrix<float>({noOutputNodes, 1}, 0);
     }
 
-    FullyConnectedLayer (Matrix<float> _weights, )
+    // constructor when we have biases and weights of the layer
+    FullyConnectedLayer (Matrix<float> _weights, Matrix<float> _biases) {
+        noInputNodes = _weights.noColumns;
+        noOutputNodes = _weight.noRows;
+
+        weights = _weights;
+        biases = _biases;
+
+        weightDerivatives = Matrix<float>({numNeurons,numInputs},0);
+        biasDerivatives = Matrix<float>({numNeurons,1},0);
+    }
 }
