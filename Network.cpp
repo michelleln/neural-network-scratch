@@ -27,7 +27,7 @@ public:
         }
     }
 
-    // get all outputs of all layers
+    // Forrward pass, get all outputs of all layers
     // input is a vector with size equal to noInputNodes of 1st layer, similarly output size equals nOutputNodes of last layer
     std::vector<Matrix<float>> runNetwork(Matrix<float> input) {
         std::vector<Matrix<float>> outputs;
@@ -39,7 +39,7 @@ public:
     }
 
     // get loss using mean-squared error loss
-    static float geLoss (Matrix<float> &output, Matrix<float> &expectedOutput) {
+    static float getLoss (Matrix<float> &output, Matrix<float> &expectedOutput) {
         float totalError = 0;
         for (int i = 0; i < expectedOutput.noRows; i++) {
             totalError += (float)std::pow(output.get(i, 0) - expectedOutput.get(i, 0), 2.0f);
@@ -47,6 +47,7 @@ public:
         return totalError / (float)expectedOutputs.numRows;
     }
 
-    // get 
+    // get the gradient of the loss with respect to the final layer's outputs
+    
 }
 
