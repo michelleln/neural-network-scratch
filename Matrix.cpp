@@ -41,6 +41,18 @@ public:
         data = _data;
     }
 
+    // Instance method set all entries of the matrix to a given value
+    Matrix& setAll(T x) {
+        for (T & i : data){
+            i = x;
+        }
+        return *this;
+    }
+    // Make a static method for every instance method
+    static Matrix setAll(const Matrix &m, T x){
+        return Matrix(m).setAll(x);
+    }
+
     // Instance method add 2 matrices
     Matrix& add(constant Matrix &m2) {
         for (int i = 0; i < data.size(); i++) {
@@ -48,7 +60,7 @@ public:
         }
         return *this;
     }
-    // Make a static method for every instance method
+    
     static Matrix add(constant Matrix &m1, constant Matrix &m2) {
         return Matrix(m1).add(m2);
     }
@@ -105,6 +117,27 @@ public:
 
     static Matrix opElement(const Matrix &m, T (*func)(T)) {
         return Matrix(m).opElement(func);
+    }
+
+    // Multiply all elements by a scalar value
+    Matrix& multiply (T x) {
+        for (T & i : data) {
+            i *= x;
+        }
+        return *this;
+    }
+
+    static Matrix multiply (const Matrix &m, const T x) {
+        return Matrix(m).multiply(x);
+    }
+
+    // Divide all elements by a scalar value using multiply method
+    Matrix& divide (T x) {
+        return multiply(1/x);
+    }
+
+    static Matrix divide(const Matrix &m, T x) {
+        return Matrix::multiply(m, 1/x);
     }
 };
 
