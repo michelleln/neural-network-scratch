@@ -53,6 +53,15 @@ public:
         return Matrix(m).setAll(x);
     }
 
+    // Set a specific entry to a given value
+    Matrix& set(int row, int column, T value) {
+        data[row * noColumns + col] = value;
+        return *this;
+    }
+    static Matrix set(const Matrix &m, int row, int column, T value) {
+        return Matrix(m).set(row, column, value);
+    }
+
     // Instance method add 2 matrices
     Matrix& add(constant Matrix &m2) {
         for (int i = 0; i < data.size(); i++) {
@@ -96,12 +105,17 @@ public:
     // Transpose a matrix
     static Matrix (const Matrix &m) {
         Matrix result({m.noRows, m.noColumns});
+        if (m.numRows == 1 || m.numCols == 1) { // if matrix is a vector, just swap width/height
+            res.data = m.data;
+            return res;
+        }
         for (int i = 0; i < result.noRows; i++) {
             for (int j = 0; j < result.noColumns; j++){
-                result.data[result.noRows * j + i] = m.data[m.noRows * i + j];
+                result.data[result.noColumns * i + j] = m.data[m.noColumns * j + i];
             }
         }
     }
+
     Matrix& transpose {
         *this = transpose(this);
         return *this;
