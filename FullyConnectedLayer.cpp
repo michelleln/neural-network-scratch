@@ -31,5 +31,5 @@ public:
         biasesDerivatives = Matrix<float>({noOutputNodes, 1}, 0);
     }
 
-    FullyConnectedLayer (Matrix<float> weights, )
+    FullyConnectedLayer (Matrix<float> _weights, )
 }
