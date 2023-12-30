@@ -48,6 +48,8 @@ public:
     }
 
     // get the gradient of the loss with respect to the final layer's outputs
-    
+    Matrix<float> getLossGradient (Matrix<float> &output, Matrix<float> &expectedOutput) {
+        
+    }
 }
 
