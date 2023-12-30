@@ -42,7 +42,19 @@ public:
         biasDerivatives = Matrix<float>({numNeurons,1},0);
     }
 
-    // get outputt for the layer
+    // initialize random weights and biases in range [-0.5, 0.5] with uniform distribution
+    void randomLayer (std::mt19937 gen) {
+        std::uniform_real_distribution<> weightDistribution(-0.5, 0.5);
+        std::uniform_real_distribution<> biasDistribution(-0.5, 0.5);
+
+        for (int i = 0; i < noInputNodes; i++) {
+            for (int j = 0; j < noOutputNodes, j++) {
+                weights.set(i, j, static_cast<float>(weightDistribution(gen)));
+            }
+            biases.set(i, 0, static_cast<float>(biasDistribution(gen)));
+        }
+    }
+    // get output for the layer
     Matrix<float> forwardPropagate (const Matrix<float> &input){
         Matrix<float> output = weights.multiply(input);
         output.add(biases);
