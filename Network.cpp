@@ -91,7 +91,7 @@ public:
         *averageLoss += loss;
     }
 
-    // apply derivatives (updates weights and biases) to the entire network
+    // THE heavy-lifting function. apply derivatives (updates weights and biases) to the entire network
     void applyDerivatives (float learnRate){
         for (int i = 0; i < (int)layers.size(); i++) {
             layers[i].applyDerivatives(learnRate);
@@ -110,11 +110,29 @@ public:
                 // compute loss and carry out gradient descent training for each input
                 float loss = gradientDescent(trainingData[i][0], trainingData[i][0]);
                 averageLoss += loss;
-            }
+            
+                // every 20 batches output training progress
+                if (i % (batchSize * 20) == 0){
+                    std::cout << "At training entry #" + std::to_string(i) + " average loss: " + std::to_string(averageLoss / (float) i) << std::endl;
+                }
 
-            // every 20 batches output training progress
-            if (i % )
+                // network learns at the end of every batch or at the end of epoch
+                if (i % batchSize == 0 || i == trainingData.size() - 1) {
+                    applyDerivatives(learnRate);
+                }
+            }
+            // calculate and print average loss for the epoch
+            averageLoss /= (float)trainingData.size();
+
+            auto endTime = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+
+            std::cout << "Epoch " + std::to_string(iter) + " completed. Average loss: " << std::to_string(averageLoss) + ". Time taken: " + std::to_string(duration.count()) + " milliseconds." << std::endl;
         }
     }
+
+    // threaded version of 'train', processing mini-batches concurrently using multiple threads
+    
+
 }
 
