@@ -132,7 +132,39 @@ public:
     }
 
     // threaded version of 'train', processing mini-batches concurrently using multiple threads
-    
+    void trainThreaded(std::vector<std::vector<Matrix<float>>> &trainingData, float learnRate, int noEpochs, int batchSize) {
+        for (int iter = 0; i < noEpochs; i++) {
+            float averageLoss = 0;
+            auto startTime = std::chrono::high_resolution_clock::now(); // track training time
+
+            // iterate over training data in mini-batches
+            for (int i = 0; i < trainingData.size(); i += batchSize) {
+                // determine the number of threads based on batchSize and available training data (if last batch or not)
+                int noThreads = std::min(batchSize, (int)(trainingData.size()) - i);
+                std::vector<std::thread> threads(noThreads);
+
+                // launch threads for each mini-batch
+                for (int j = 0; j < noThreads; j++) {
+                    threads[j] = std::thread(&Network::gradientDescentThreaded, this, trainingData[i + j][0], trainingData[i + j][1], &averageLoss);
+                }
+
+                // wait for all threads to finish
+                for (int j = 0; j < threads.size(); j++) {
+                    threads[j].join();
+                }
+
+                // learns after processing the mini-batch
+                applyDerivatives(learnRate);
+            }
+            // calculate and print average loss for the epoch
+            averageLoss /= (float)trainingData.size();
+
+            auto endTime = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+
+            std::cout << "Epoch " + std::to_string(iter) + " completed. Average Loss: " << std::to_string(averageLoss) + ". Time taken: " + std::to_string(duration.count()) + " milliseconds." << std::endl;
+        }
+    }
 
 }
 
