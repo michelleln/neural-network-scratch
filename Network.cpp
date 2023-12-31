@@ -39,7 +39,7 @@ public:
     }
 
     // get loss using mean-squared error loss
-    static float getLoss (Matrix<float> &output, Matrix<float> &expectedOutput) {
+    static float getLoss (const Matrix<float> &output, const Matrix<float> &expectedOutput) {
         float totalError = 0;
         for (int i = 0; i < expectedOutput.noRows; i++) {
             totalError += (float)std::pow(output.get(i, 0) - expectedOutput.get(i, 0), 2.0f);
@@ -48,7 +48,7 @@ public:
     }
 
     // get the gradient of the loss wrt the final layer's outputs
-    static Matrix<float> getLossGradient (Matrix<float> &output, Matrix<float> &expectedOutput) {
+    static Matrix<float> getLossGradient (const Matrix<float> &output, const Matrix<float> &expectedOutput) {
         Matrix<float> derivatives({output.noRows, 1});
         for (int i = 0; i < output.noRows; i++) {
             float currentDerivative = -2.0f/output.noRows * (expectedOutput.get(i, 0) - output.get(i, 0));
@@ -57,11 +57,13 @@ public:
         return derivatives;
     }
 
-    // recursively performs gradient descent training on the network for a given input and expected output. get loss after each time weights are updated
-    float gradientDescent(Matrix<float> &input, Matrix<float> &expectedOutput) {
+    // recursively performs gradient descent training on the network for a given input and expected output. get loss after each time the weights are updated
+    float gradientDescent(const Matrix<float> &input, const Matrix<float> &expectedOutput) {
         std::vector<Matrix<float>> outputs = runNetwork(input);
-        Matrix<float> gradient = getLossGradient(finalOutput, expectedOutput);
-        for (int i = layers.size() - 1; i >= 0; i--) {
+        // get gradient of the last layer
+        Matrix<float> gradient = getLossGradient(outputs.back(), expectedOutput);
+        // recursively get gradients of all layers
+        for (int i = (int)layers.size() - 1; i >= 0; i--) {
             if (i == 0) {
                 gradient = getDerivatives(input, outputs[0], gradient);
             } else {
@@ -72,6 +74,47 @@ public:
     }
 
     // threaded version of gradientDescent to train the network using multiple threads
+    void gradientDescentThreaded(const Matrix<float> &input, const Matrix<float> &expectedOutput, float *averageLoss) { // use pointer so I dont have to declare redundant class member
+        std::vectorr<Matrix<float>> outputs = runNetwork(input);
+        Matrix<float> gradient = getLossGradient(outputs.back(), expectedOutput);
 
+        for (int i = (int)layers.size() - 1; i >= 0; i--) {
+            if (i == 0) {
+                gradient = getDerivatives(input, outputs[0], gradient);
+            } else {
+                gradient = getDerivatives(outputs[i - 1], outputs[i], gradient);
+            }
+        }
+
+        float loss = getLoss(outputs.back(), expectedOutput);
+        // cumulative loss across all inputs processed by the threads
+        *averageLoss += loss;
+    }
+
+    // apply derivatives (updates weights and biases) to the entire network
+    void applyDerivatives (float learnRate){
+        for (int i = 0; i < (int)layers.size(); i++) {
+            layers[i].applyDerivatives(learnRate);
+        }
+    }
+
+    // train the network with given training data for a specified number of epochs, stochastically by a given batch size
+    // training data is organized in vectors, each vector include a training entry and expected output for that entry
+    void train(std::vector<std::vector<Matrix<float>>> &trainingData, float learnRate, int noEpochs, int batchSize) {
+        for (int iter = 0; i < noEpochs; i++) {
+            float averageLoss = 0;
+            auto startTime = std::chrono::high_resolution_clock::now(); // track training time
+
+            // iterate over training data in mini-batches
+            for (int i = 0; i < trainingData.size(); i++) {
+                // compute loss and carry out gradient descent training for each input
+                float loss = gradientDescent(trainingData[i][0], trainingData[i][0]);
+                averageLoss += loss;
+            }
+
+            // every 20 batches output training progress
+            if (i % )
+        }
+    }
 }
 
