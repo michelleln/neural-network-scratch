@@ -57,7 +57,9 @@ public:
         return derivatives;
     }
 
-    // get derivatives wrt to loss in each layer
-    float 
+    // recursively performs gradient descent training on the network for a given input and expected output. get loss after each time weights are updated
+    float gradientDescent(Matrix<float> &input, Matrix<float> &expectedOutput) {
+        
+    }
 }
 
