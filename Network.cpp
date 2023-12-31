@@ -59,7 +59,19 @@ public:
 
     // recursively performs gradient descent training on the network for a given input and expected output. get loss after each time weights are updated
     float gradientDescent(Matrix<float> &input, Matrix<float> &expectedOutput) {
-        
+        std::vector<Matrix<float>> outputs = runNetwork(input);
+        Matrix<float> gradient = getLossGradient(finalOutput, expectedOutput);
+        for (int i = layers.size() - 1; i >= 0; i--) {
+            if (i == 0) {
+                gradient = getDerivatives(input, outputs[0], gradient);
+            } else {
+                gradient = getDerivatives(outputs[i - 1], outputs[i], gradient);
+            }
+        }
+        return getLoss(outputs.back(), expectedOutput);
     }
+
+    // threaded version of gradientDescent to train the network using multiple threads
+
 }
 
