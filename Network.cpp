@@ -44,12 +44,20 @@ public:
         for (int i = 0; i < expectedOutput.noRows; i++) {
             totalError += (float)std::pow(output.get(i, 0) - expectedOutput.get(i, 0), 2.0f);
         }
-        return totalError / (float)expectedOutputs.numRows;
+        return totalError / (float)expectedOutputs.noRows;
     }
 
-    // get the gradient of the loss with respect to the final layer's outputs
-    Matrix<float> getLossGradient (Matrix<float> &output, Matrix<float> &expectedOutput) {
-        
+    // get the gradient of the loss wrt the final layer's outputs
+    static Matrix<float> getLossGradient (Matrix<float> &output, Matrix<float> &expectedOutput) {
+        Matrix<float> derivatives({output.noRows, 1});
+        for (int i = 0; i < output.noRows; i++) {
+            float currentDerivative = -2.0f/output.noRows * (expectedOutput.get(i, 0) - output.get(i, 0));
+            derivatives.set(i,0,derivative);
+        }
+        return derivatives;
     }
+
+    // get derivatives wrt to loss in each layer
+    float 
 }
 
