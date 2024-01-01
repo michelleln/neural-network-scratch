@@ -50,10 +50,10 @@ int main()
 
         std::vector<float> inputPixel(784);
         std::vector<float> outputLabel(10);
-        outputLabel[std::stoi(row[0])] = 1; // only correct label set to 1, rest set to 0
+        outputLabel[std::stoi(entry[0])] = 1; // only correct label set to 1, rest set to 0
         for (int j = 1; j < 784 + 1; j++)
         {
-            inputPixel[j - 1] = std::stof(row[j]) / 255 // normalize pixel input to have value [0, 1]
+            inputPixel[j - 1] = std::stof(entry[j]) / 255; // normalize pixel input to have value [0, 1]
         }
         trainingData.push_back({Matrix<float>({784, 1}, inputPixel), Matrix<float>({10, 1}, outputLabel)});
     }
@@ -79,7 +79,7 @@ int main()
     // Heavy-lifting train function
     myNetwork.trainThreaded(trainingData, noEpochs, batchSize, learnRate);
 
-    content.clear()
+    content.clear();
         // get test data entry by entry
         std::fstream testFile("mnist_test.csv", std::ios::in);
     if (testFile.is_open())
@@ -114,10 +114,10 @@ int main()
 
         std::vector<float> inputPixel(784);
         std::vector<float> outputLabel(10);
-        outputLabel[std::stoi(row[0])] = 1; // only correct label set to 1, rest set to 0
+        outputLabel[std::stoi(entry[0])] = 1; // only correct label set to 1, rest set to 0
         for (int j = 1; j < 784 + 1; j++)
         {
-            inputPixel[j - 1] = std::stof(row[j]) / 255 // normalize pixel input to have value [0, 1]
+            inputPixel[j - 1] = std::stof(entry[j]) / 255; // normalize pixel input to have value [0, 1]
         }
         testData.push_back({Matrix<float>({784, 1}, inputPixel), Matrix<float>({10, 1}, outputLabel)});
     }
@@ -134,12 +134,12 @@ int main()
         {
             if (output.get(j, 0) > output.get(predictedOutput, 0))
             {
-                predictedOutput = j
+                predictedOutput = j;
             }
         }
 
         int expectedOutput = 0;
-        for (int j = 1; j < testData[i][1].size(); j++)
+        for (int j = 1; j < testData[i][1].data.size(); j++)
         {
             if (testData[i][1].data[j] > testData[i][1].data[expectedOutput])
             {
