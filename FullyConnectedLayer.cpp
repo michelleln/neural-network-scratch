@@ -1,5 +1,4 @@
-#include <iostream>
-#include <cmath>
+#include <random>
 
 #include "Matrix.cpp"
 #include "TanhLayer.cpp"
@@ -33,13 +32,13 @@ public:
     // constructor when we have biases and weights of the layer
     FullyConnectedLayer (Matrix<float> _weights, Matrix<float> _biases) {
         noInputNodes = _weights.noColumns;
-        noOutputNodes = _weight.noRows;
+        noOutputNodes = _weights.noRows;
 
         weights = _weights;
         biases = _biases;
 
-        weightsDerivatives = Matrix<float>({numNeurons,numInputs},0);
-        biasDerivatives = Matrix<float>({numNeurons,1},0);
+        weightsDerivatives = Matrix<float>({noOutputNodes,noInputNodes},0);
+        biasesDerivatives = Matrix<float>({noOutputNodes,1},0);
     }
 
     // initialize random weights and biases in range [-0.5, 0.5] with uniform distribution
@@ -49,7 +48,7 @@ public:
         std::uniform_real_distribution<> biasDistribution(-0.5, 0.5);
 
         for (int i = 0; i < noInputNodes; i++) {
-            for (int j = 0; j < noOutputNodes, j++) {
+            for (int j = 0; j < noOutputNodes; j++) {
                 weights.set(i, j, (float)(weightDistribution(gen)));
             }
             biases.set(i, 0, (float)(biasDistribution(gen)));
@@ -67,7 +66,7 @@ public:
     // of input of previous layer
     // update derivatives of cost with respect to each of the weights & biases in this current layer, obtained by
     // multiplying such derivative of the layer following it and the input of this layer (by chain rule)
-    Matrix<float> getDerivatives (const Matrix<float> &input, const Matrix<float> &nextLayerDerivatives) {
+    Matrix<float> getDerivatives (const Matrix<float> &input, const Matrix<float> &output, const Matrix<float> &nextLayerDerivatives) {
         // account for sigmoid derivatives of the input
         Matrix<float> outputDerivatives = TanhLayer::getDerivatives(output, nextLayerDerivatives);
 
@@ -81,10 +80,10 @@ public:
     }
 
     void applyDerivatives(float learnRate) {
-        biases.subtract(biasDerivatives.multiply(learnRate));
+        biases.subtract(biasesDerivatives.multiply(learnRate));
         biasesDerivatives.setAll(0);
 
         weights.subtract(weightsDerivatives.multiply(learnRate));
         weightsDerivatives.setAll(0);
     }
-}
+};
