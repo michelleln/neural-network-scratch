@@ -49,5 +49,32 @@ int main() {
         }
         trainingData.push_back({Matrix<float>({784, 1}, inputPixel), Matrix<float>({10, 1}, outputLabel)});
     }
+
+    std::cout << "Training data processing completed" << std::endl;
+
+    // initiate a network with only 1 hidden layer that has 50 neurons
+    std::vector<std::vector<int>> networkDimension = {
+        {784, 50},
+        {50, 10}
+    };
+
+    Network myNetwork = Network(networkDimension);
+
+    // randomize weights & biases for each epoch
+
+    myNetwork.randomNetwork();
+    std::cout << "Running network" << std::endl;
+
+    int noEpochs = 15;
+    int batchSize = 16;
+    float learnRate = 0.03;
+
+    // Heavy-lifting train function
+    myNetwork.trainThreaded(trainingData, noEpochs, batchSize, learnRate);
+
+    content.clear()
+
+    
+
 }
 
