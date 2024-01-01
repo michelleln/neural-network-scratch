@@ -139,8 +139,8 @@ public:
                 float loss = gradientDescent(trainingData[i][0], trainingData[i][0]);
                 averageLoss += loss;
 
-                // every 20 batches output training progress
-                if (i % (batchSize * 20) == 0)
+                // every 2 batches output training progress
+                if (i % (batchSize * 2) == 0)
                 {
                     std::cout << "At training entry #" + std::to_string(i) + " average loss: " + std::to_string(averageLoss / (float)i) << std::endl;
                 }
