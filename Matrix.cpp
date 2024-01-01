@@ -1,3 +1,6 @@
+#include <vector>
+#include <string>
+#include <cmath>
 // Header guard
 #ifndef MATRIX_H
 #define MATRIX_H
@@ -17,7 +20,7 @@ public:
         data = std::vector<T>(0); // empty vector
     }
 
-    // Initiate a matrix with all 0 entries
+    // Initiate a matrix
     explicit Matrix(const std::vector<int> size) {
         noRows = size[0];
         noColumns = size[1];
@@ -74,6 +77,27 @@ public:
         return Matrix(m1).add(m2);
     }
 
+    // Instance method subtract 2 matrices
+    Matrix& subtract(const Matrix &m2) {
+        for (int i = 0; i < data.size(); i++) {
+            data[i] -= m2.data[i];
+        }
+        return *this;
+    }
+    
+    static Matrix subtract(const Matrix &m1, const Matrix &m2) {
+        return Matrix(m1).subtract(m2);
+    }
+
+    // get the value at a specific entry of the matrix
+    T get(int row, int col) const {
+        return data[row * numCols + col];
+    }
+
+    static T get(const Matrix &m, int row, int col) {
+        return m.get(row,col);
+    }
+
     // Hadamard product (element-wise multiplication) to help computing derivatives by recursion from layers to layers
     Matrix& hProduct(const Matrix &m2) {
         for (int i = 0; i < data.size(); i++) {
@@ -103,12 +127,12 @@ public:
     }
 
     // Transpose a matrix
-    static Matrix (const Matrix &m) {
+    static Matrix transpose(const Matrix &m) {
         Matrix result({m.noColumns, m.noRows});
         if (m.noRows == 1 || m.noColumns == 1) { // if matrix is a vector, just swap width/height (copy data)
             int temp = m.
             res.data = m.data;
-            return res;
+            return result;
         }
         for (int i = 0; i < result.noRows; i++) {
             for (int j = 0; j < result.noColumns; j++){
