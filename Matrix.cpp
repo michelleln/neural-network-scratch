@@ -18,14 +18,14 @@ public:
     }
 
     // Initiate a matrix with all 0 entries
-    explicit Matrix(constant std::vector<int> size) {
+    explicit Matrix(const std::vector<int> size) {
         noRows = size[0];
         noColumns = size[1];
         data = std::vector<T>(noRows * noColumns);
     }
 
     // Initiate a matrix with the same entry
-    explicit Matrix(constant std::vector<int> size, T temp) {
+    explicit Matrix(const std::vector<int> size, T temp) {
         noRows = size[0];
         noColumns = size[1];
         data = std::vector<T> (noRows * noColumns);
@@ -35,7 +35,7 @@ public:
     }
 
     // Initiate a matrix with all given entries
-    explicit Matrix(constant std::vector<int> size, constant std::vector<T> &_data) {
+    explicit Matrix(const std::vector<int> size, const std::vector<T> &_data) {
         noRows = size[0];
         noColumns = size[1];
         data = _data;
@@ -63,31 +63,31 @@ public:
     }
 
     // Instance method add 2 matrices
-    Matrix& add(constant Matrix &m2) {
+    Matrix& add(const Matrix &m2) {
         for (int i = 0; i < data.size(); i++) {
             data[i] += m2.data[i];
         }
         return *this;
     }
     
-    static Matrix add(constant Matrix &m1, constant Matrix &m2) {
+    static Matrix add(const Matrix &m1, const Matrix &m2) {
         return Matrix(m1).add(m2);
     }
 
     // Hadamard product (element-wise multiplication) to help computing derivatives by recursion from layers to layers
-    Matrix& hProduct(constant Matrix &m2) {
+    Matrix& hProduct(const Matrix &m2) {
         for (int i = 0; i < data.size(); i++) {
             data[i] *= m2.data[i];
         }
         return *this;
     }
 
-    static Matrix hProduct(constant Matrix &m1, constant Matrix &m2) {
+    static Matrix hProduct(const Matrix &m1, const Matrix &m2) {
         return Matrix(m1).hProduct(m2);
     }
 
     // Multiply two matrices by dot product
-    Matrix multiply(constant Matrix &m2) const {
+    Matrix multiply(const Matrix &m2) const {
         Matrix result({noRows, m2.noColumns});
         for (int i = 0; i < result.noRows, i++){
             for (int j = 0; j < result.noColumns; j++) {
