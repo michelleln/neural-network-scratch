@@ -70,7 +70,7 @@ public:
     // Set a specific entry to a given value
     Matrix &set(int row, int column, T value)
     {
-        data[row * noColumns + col] = value;
+        data[row * noColumns + column] = value;
         return *this;
     }
     static Matrix set(const Matrix &m, int row, int column, T value)
@@ -81,7 +81,7 @@ public:
     // Instance method add 2 matrices
     Matrix &add(const Matrix &m2)
     {
-        for (int i = 0; i < data.size(); i++)
+        for (int i = 0; i < (int)data.size(); i++)
         {
             data[i] += m2.data[i];
         }
@@ -111,7 +111,7 @@ public:
     // get the value at a specific entry of the matrix
     T get(int row, int col) const
     {
-        return data[row * numCols + col];
+        return data[row * noColumns + col];
     }
 
     static T get(const Matrix &m, int row, int col)
@@ -160,7 +160,7 @@ public:
         Matrix result({m.noColumns, m.noRows});
         if (m.noRows == 1 || m.noColumns == 1)
         { // if matrix is a vector, just swap width/height (copy data)
-            int temp = m.res.data = m.data;
+            result.data = m.data;
             return result;
         }
         for (int i = 0; i < result.noRows; i++)
@@ -172,14 +172,14 @@ public:
         }
     }
 
-    Matrix &transpose
+    Matrix &transpose ()
     {
         *this = transpose(this);
         return *this;
     }
 
     // Operation on all elements
-    Matrix &opElement(T (*func)(T))
+    Matrix& opElement(T (*func)(T))
     {
         for (int i = 0; i < data.size(); i++)
         {
