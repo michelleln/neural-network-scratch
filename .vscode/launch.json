@@ -3,18 +3,24 @@
   "configurations": [
     {
       "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/hongnhung/Documents/GitHub/scratch-cnn",
+      "program": "/Users/hongnhung/Documents/GitHub/scratch-cnn/build/Debug/outDebug"
+    },
+    {
+      "name": "C/C++: clang++ build and debug active file",
       "type": "cppdbg",
       "request": "launch",
-      "args": [
-        ""
-      ],
-      "stopAtEntry": true,
-      "cwd": "/Users/hongnhung/Documents/GitHub/scratch-cnn",
+      "program": "${fileDirname}/${fileBasenameNoExtension}",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
       "environment": [],
-      "program": "/Users/hongnhung/Documents/GitHub/scratch-cnn/build/Debug/outDebug",
-      "internalConsoleOptions": "openOnSessionStart",
-      "MIMode": "gdb",
-      "externalConsole": true
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "C/C++: clang++ build active file"
     }
   ]
 }
