@@ -1,7 +1,8 @@
-#include <iostream>
 #include <vector>
+#include <random>
 #include <cmath>
-
+#include <iostream>
+#include <thread>
 #include "FullyConnectedLayer.cpp"
 
 class Network {
@@ -9,7 +10,7 @@ private:
     std::vector<FullyConnectedLayer> layers;
 public:
     // constructor
-    explicit FullyConnectedLayer (std::vector<std::vector<int>> dimensions) {
+    explicit Network (std::vector<std::vector<int> > dimensions) {
         // dimensions contain number of input nodes & output nodes in pairs for each of the layers
         for (int i = 0; i < dimensions.size(); i++) {
             layers.emplace_back(FullyConnectedLayer(dimensions[i][0], dimensions[i][1]));
@@ -17,7 +18,7 @@ public:
     }
 
     // assign random weights & biases to each layer
-    void randomNetwork {
+    void randomNetwork() {
         std::random_device rd; //obtain a seed for the random number generator
         std::mt19937 gen(rd()); //initializes a Mersenne Twister pseudorandom number generator with the seed obtained from the random device
 
@@ -29,8 +30,8 @@ public:
 
     // Forrward pass, get all outputs of all layers
     // input is a vector with size equal to noInputNodes of 1st layer, similarly output size equals nOutputNodes of last layer
-    std::vector<Matrix<float>> runNetwork(Matrix<float> input) {
-        std::vector<Matrix<float>> outputs;
+    std::vector<Matrix<float> > runNetwork(Matrix<float> input) {
+        std::vector<Matrix<float> > outputs;
         for (int i = 0; i < layers.size(); i++) {
             input = layers[i].forwardPropagate(input);
             outputs.push_back(input);
@@ -44,7 +45,7 @@ public:
         for (int i = 0; i < expectedOutput.noRows; i++) {
             totalError += (float)std::pow(output.get(i, 0) - expectedOutput.get(i, 0), 2.0f);
         }
-        return totalError / (float)expectedOutputs.noRows;
+        return totalError / (float)expectedOutput.noRows;
     }
 
     // get the gradient of the loss wrt the final layer's outputs
@@ -59,7 +60,7 @@ public:
 
     // recursively performs gradient descent training on the network for a given input and expected output. get loss after each time the weights are updated
     float gradientDescent(const Matrix<float> &input, const Matrix<float> &expectedOutput) {
-        std::vector<Matrix<float>> outputs = runNetwork(input);
+        std::vector<Matrix<float> > outputs = runNetwork(input);
         // get gradient of the last layer
         Matrix<float> gradient = getLossGradient(outputs.back(), expectedOutput);
         // recursively get gradients of all layers
@@ -75,7 +76,7 @@ public:
 
     // threaded version of gradientDescent to train the network using multiple threads
     void gradientDescentThreaded(const Matrix<float> &input, const Matrix<float> &expectedOutput, float *averageLoss) { // use pointer so I dont have to declare redundant class member
-        std::vectorr<Matrix<float>> outputs = runNetwork(input);
+        std::vectorr<Matrix<float> > outputs = runNetwork(input);
         Matrix<float> gradient = getLossGradient(outputs.back(), expectedOutput);
 
         for (int i = (int)layers.size() - 1; i >= 0; i--) {
@@ -100,7 +101,7 @@ public:
 
     // train the network with given training data for a specified number of epochs, stochastically by a given batch size
     // training data is organized in vectors, each vector include a training entry and expected output for that entry
-    void train(std::vector<std::vector<Matrix<float>>> &trainingData, float learnRate, int noEpochs, int batchSize) {
+    void train(std::vector<std::vector<Matrix<float> > > &trainingData, float learnRate, int noEpochs, int batchSize) {
         for (int iter = 0; i < noEpochs; i++) {
             float averageLoss = 0;
             auto startTime = std::chrono::high_resolution_clock::now(); // track training time
@@ -132,7 +133,7 @@ public:
     }
 
     // threaded version of 'train', processing mini-batches concurrently using multiple threads
-    void trainThreaded(std::vector<std::vector<Matrix<float>>> &trainingData, float learnRate, int noEpochs, int batchSize) {
+    void trainThreaded(std::vector<std::vector<Matrix<float> > > &trainingData, float learnRate, int noEpochs, int batchSize) {
         for (int iter = 0; i < noEpochs; i++) {
             float averageLoss = 0;
             auto startTime = std::chrono::high_resolution_clock::now(); // track training time
