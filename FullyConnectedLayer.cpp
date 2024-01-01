@@ -38,7 +38,7 @@ public:
         weights = _weights;
         biases = _biases;
 
-        weightDerivatives = Matrix<float>({numNeurons,numInputs},0);
+        weightsDerivatives = Matrix<float>({numNeurons,numInputs},0);
         biasDerivatives = Matrix<float>({numNeurons,1},0);
     }
 
@@ -72,7 +72,7 @@ public:
         Matrix<float> outputDerivatives = TanhLayer::getDerivatives(output, nextLayerDerivatives);
 
         biasesDerivatives.add(outputDerivatives);
-        weightDerivatives.add(Matrix<float>::multiply(outputDerivatives, Matrix<float>::transpose(input)));
+        weightsDerivatives.add(Matrix<float>::multiply(outputDerivatives, Matrix<float>::transpose(input)));
 
         Matrix<float> inputDerivatives = Matrix<float>::multiply(weights, outputDerivatives);
         inputDerivatives.divide(weights.noRows);
@@ -84,7 +84,7 @@ public:
         biases.subtract(biasDerivatives.multiply(learnRate));
         biasesDerivatives.setAll(0);
 
-        weights.subtract(weightDerivatives.multiply(learnRate));
-        weightDerivatives.setAll(0);
+        weights.subtract(weightsDerivatives.multiply(learnRate));
+        weightsDerivatives.setAll(0);
     }
 }
