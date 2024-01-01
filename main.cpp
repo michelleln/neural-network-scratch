@@ -5,11 +5,16 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <string>
 
 #include "Network.cpp"
 
 int main()
 {
+    int noEpochs = 15;
+    int batchSize = 16;
+    float learnRate = 0.015;
+    
     // read training entries from csv file
     std::vector<std::vector<std::string>> content;
     std::vector<std::string> entry;
@@ -31,6 +36,7 @@ int main()
             }
             content.push_back(entry);
         }
+        trainingFile.close();
     }
     else
     {
@@ -44,7 +50,7 @@ int main()
     std::vector<std::vector<Matrix<float>>> trainingData; // transform into format compatible with train fucntion in Network layer
 
     //skip fieldname line in csv
-    for (int i = 1; i < content.size(); i++)
+    for (int i = 1; i < (int) content.size(); i++)
     {
         entry = content[i];
 
@@ -72,16 +78,13 @@ int main()
     myNetwork.randomNetwork();
     std::cout << "Running network" << std::endl;
 
-    int noEpochs = 15;
-    int batchSize = 16;
-    float learnRate = 0.03;
-
     // Heavy-lifting train function
-    myNetwork.trainThreaded(trainingData, noEpochs, batchSize, learnRate);
-
+    myNetwork.trainThreaded(trainingData, learnRate, noEpochs, batchSize);
+    std::cout << "Still training" << std::endl;
     content.clear();
+
         // get test data entry by entry
-        std::fstream testFile("mnist_test.csv", std::ios::in);
+    std::fstream testFile("mnist_test.csv", std::ios::in);
     if (testFile.is_open())
     {
         std::cout << "Reading test data" << std::endl;
@@ -95,6 +98,7 @@ int main()
             }
             content.push_back(entry);
         }
+        testFile.close();
     }
     else
     {
