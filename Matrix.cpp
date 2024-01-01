@@ -1,12 +1,15 @@
-#include <vector>
-#include <string>
-#include <cmath>
 // Header guard
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <vector>
+#include <string>
+#include <cmath>
+
 // Class template Matrix parametized by type T
-template <typename T> class Matrix {
+template <typename T>
+class Matrix
+{
 public:
     // Class members
     int noRows;
@@ -14,107 +17,131 @@ public:
     std::vector<T> data;
 
     // Default constructor
-    Matrix() {
+    Matrix()
+    {
         noRows = 0;
         noColumns = 0;
         data = std::vector<T>(0); // empty vector
     }
 
-    // Initiate a matrix
-    explicit Matrix(const std::vector<int> size) {
+    // Initiate a matrix with all zero entries
+    explicit Matrix(const std::vector<int> size)
+    {
         noRows = size[0];
         noColumns = size[1];
         data = std::vector<T>(noRows * noColumns);
     }
 
     // Initiate a matrix with the same entry
-    explicit Matrix(const std::vector<int> size, T temp) {
+    Matrix(const std::vector<int> size, T temp)
+    {
         noRows = size[0];
         noColumns = size[1];
-        data = std::vector<T> (noRows * noColumns);
-        for (T & i : data) { // iterates over every reference i of type T in data
+        data = std::vector<T>(noRows * noColumns);
+        for (T &i : data)
+        { // iterates over every reference i of type T in data
             i = temp;
-        } 
+        }
     }
 
     // Initiate a matrix with all given entries
-    explicit Matrix(const std::vector<int> size, const std::vector<T> &_data) {
+    Matrix(const std::vector<int> size, const std::vector<T> &_data)
+    {
         noRows = size[0];
         noColumns = size[1];
         data = _data;
     }
 
     // Instance method set all entries of the matrix to a given value
-    Matrix& setAll(T x) {
-        for (T & i : data){
+    Matrix &setAll(T x)
+    {
+        for (T &i : data)
+        {
             i = x;
         }
         return *this;
     }
     // Make a static method for every instance method
-    static Matrix setAll(const Matrix &m, T x){
+    static Matrix setAll(const Matrix &m, T x)
+    {
         return Matrix(m).setAll(x);
     }
 
     // Set a specific entry to a given value
-    Matrix& set(int row, int column, T value) {
+    Matrix &set(int row, int column, T value)
+    {
         data[row * noColumns + col] = value;
         return *this;
     }
-    static Matrix set(const Matrix &m, int row, int column, T value) {
+    static Matrix set(const Matrix &m, int row, int column, T value)
+    {
         return Matrix(m).set(row, column, value);
     }
 
     // Instance method add 2 matrices
-    Matrix& add(const Matrix &m2) {
-        for (int i = 0; i < data.size(); i++) {
+    Matrix &add(const Matrix &m2)
+    {
+        for (int i = 0; i < data.size(); i++)
+        {
             data[i] += m2.data[i];
         }
         return *this;
     }
-    
-    static Matrix add(const Matrix &m1, const Matrix &m2) {
+
+    static Matrix add(const Matrix &m1, const Matrix &m2)
+    {
         return Matrix(m1).add(m2);
     }
 
     // Instance method subtract 2 matrices
-    Matrix& subtract(const Matrix &m2) {
-        for (int i = 0; i < data.size(); i++) {
+    Matrix &subtract(const Matrix &m2)
+    {
+        for (int i = 0; i < data.size(); i++)
+        {
             data[i] -= m2.data[i];
         }
         return *this;
     }
-    
-    static Matrix subtract(const Matrix &m1, const Matrix &m2) {
+
+    static Matrix subtract(const Matrix &m1, const Matrix &m2)
+    {
         return Matrix(m1).subtract(m2);
     }
 
     // get the value at a specific entry of the matrix
-    T get(int row, int col) const {
+    T get(int row, int col) const
+    {
         return data[row * numCols + col];
     }
 
-    static T get(const Matrix &m, int row, int col) {
-        return m.get(row,col);
+    static T get(const Matrix &m, int row, int col)
+    {
+        return m.get(row, col);
     }
 
     // Hadamard product (element-wise multiplication) to help computing derivatives by recursion from layers to layers
-    Matrix& hProduct(const Matrix &m2) {
-        for (int i = 0; i < data.size(); i++) {
+    Matrix &hProduct(const Matrix &m2)
+    {
+        for (int i = 0; i < data.size(); i++)
+        {
             data[i] *= m2.data[i];
         }
         return *this;
     }
 
-    static Matrix hProduct(const Matrix &m1, const Matrix &m2) {
+    static Matrix hProduct(const Matrix &m1, const Matrix &m2)
+    {
         return Matrix(m1).hProduct(m2);
     }
 
     // Multiply two matrices by dot product
-    Matrix multiply(const Matrix &m2) const {
+    Matrix multiply(const Matrix &m2) const
+    {
         Matrix result({noRows, m2.noColumns});
-        for (int i = 0; i < result.noRows, i++){
-            for (int j = 0; j < result.noColumns; j++) {
+        for (int i = 0; i < result.noRows; i++)
+        {
+            for (int j = 0; j < result.noColumns; j++)
+            {
                 for (int order = 0; order < noColumns; order++)
                     result.data[i * result.noColumns + j] = data[i * noColumns + order] * m2.data[m2.noColumns * order + j];
             }
@@ -122,61 +149,74 @@ public:
         return result;
     }
 
-    static Matrix multiply(const Matrix &m1, const Matrix &m2) {
+    static Matrix multiply(const Matrix &m1, const Matrix &m2)
+    {
         return m1.multiply(m2);
     }
 
     // Transpose a matrix
-    static Matrix transpose(const Matrix &m) {
+    static Matrix transpose(const Matrix &m)
+    {
         Matrix result({m.noColumns, m.noRows});
-        if (m.noRows == 1 || m.noColumns == 1) { // if matrix is a vector, just swap width/height (copy data)
-            int temp = m.
-            res.data = m.data;
+        if (m.noRows == 1 || m.noColumns == 1)
+        { // if matrix is a vector, just swap width/height (copy data)
+            int temp = m.res.data = m.data;
             return result;
         }
-        for (int i = 0; i < result.noRows; i++) {
-            for (int j = 0; j < result.noColumns; j++){
+        for (int i = 0; i < result.noRows; i++)
+        {
+            for (int j = 0; j < result.noColumns; j++)
+            {
                 result.data[result.noColumns * i + j] = m.data[m.noColumns * j + i];
             }
         }
     }
 
-    Matrix& transpose {
+    Matrix &transpose
+    {
         *this = transpose(this);
         return *this;
     }
 
     // Operation on all elements
-    Matrix& opElement (T (*func)(T)) {
-        for (int i = 0; i < data.size(); i++) {
+    Matrix &opElement(T (*func)(T))
+    {
+        for (int i = 0; i < data.size(); i++)
+        {
             data[i] = func(data[i]);
         }
         return *this;
     }
 
-    static Matrix opElement(const Matrix &m, T (*func)(T)) {
+    static Matrix opElement(const Matrix &m, T (*func)(T))
+    {
         return Matrix(m).opElement(func);
     }
 
     // Multiply all elements by a scalar value
-    Matrix& multiply (T x) {
-        for (T & i : data) {
+    Matrix &multiply(T x)
+    {
+        for (T &i : data)
+        {
             i *= x;
         }
         return *this;
     }
 
-    static Matrix multiply (const Matrix &m, const T x) {
+    static Matrix multiply(const Matrix &m, const T x)
+    {
         return Matrix(m).multiply(x);
     }
 
     // Divide all elements by a scalar value using multiply method
-    Matrix& divide (T x) {
-        return multiply(1/x);
+    Matrix &divide(T x)
+    {
+        return multiply(1 / x);
     }
 
-    static Matrix divide(const Matrix &m, T x) {
-        return Matrix::multiply(m, 1/x);
+    static Matrix divide(const Matrix &m, T x)
+    {
+        return Matrix::multiply(m, 1 / x);
     }
 };
 
