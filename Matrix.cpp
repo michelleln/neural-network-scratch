@@ -170,6 +170,7 @@ public:
                 result.data[result.noColumns * i + j] = m.data[m.noColumns * j + i];
             }
         }
+        return result;
     }
 
     Matrix &transpose ()
