@@ -127,7 +127,7 @@ public:
     // training data is organized in vectors, each vector include a training entry and expected output for that entry
     void train(std::vector<std::vector<Matrix<float>>> &trainingData, float learnRate, int noEpochs, int batchSize)
     {
-        for (int iter = 0; i < noEpochs; i++)
+        for (int iter = 0; iter < noEpochs; iter++)
         {
             float averageLoss = 0;
             auto startTime = std::chrono::high_resolution_clock::now(); // track training time
@@ -164,7 +164,7 @@ public:
     // threaded version of 'train', processing mini-batches concurrently using multiple threads
     void trainThreaded(std::vector<std::vector<Matrix<float>>> &trainingData, float learnRate, int noEpochs, int batchSize)
     {
-        for (int iter = 0; i < noEpochs; i++)
+        for (int iter = 0; iter < noEpochs; iter++)
         {
             float averageLoss = 0;
             auto startTime = std::chrono::high_resolution_clock::now(); // track training time
