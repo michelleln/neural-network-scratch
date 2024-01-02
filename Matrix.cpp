@@ -68,11 +68,12 @@ public:
     }
 
     // Set a specific entry to a given value
-    Matrix &set(int row, int column, T value)
+    Matrix& set(int row, int column, T value)
     {
         data[row * noColumns + column] = value;
         return *this;
     }
+    
     static Matrix set(const Matrix &m, int row, int column, T value)
     {
         return Matrix(m).set(row, column, value);
@@ -219,6 +220,27 @@ public:
     {
         return Matrix::multiply(m, 1 / x);
     }
+
+    // To string a matrix
+    std::string toString() const {
+        std::string res;
+        for (int row = 0; row < noRows; row++) {
+            res += "[";
+            for (int col = 0; col < noColumns; col++) {
+                res += std::to_string(get(row,col));
+                if (col != noColumns - 1) {
+                    res += ",";
+                }
+            }
+            res += "]\n";
+        }
+        return res;
+    }
+
+    static std::string toString(const Matrix &m) {
+        return m.toString();
+    }
 };
+
 #endif
 
