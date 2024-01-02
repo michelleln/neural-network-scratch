@@ -47,8 +47,8 @@ public:
         std::uniform_real_distribution<> weightDistribution(-0.5, 0.5);
         std::uniform_real_distribution<> biasDistribution(-0.5, 0.5);
 
-        for (int i = 0; i < noInputNodes; i++) {
-            for (int j = 0; j < noOutputNodes; j++) {
+        for (int i = 0; i < noOutputNodes; i++) {
+            for (int j = 0; j < noInputNodes; j++) {
                 weights.set(i, j, (float)(weightDistribution(gen)));
             }
             biases.set(i, 0, (float)(biasDistribution(gen)));
