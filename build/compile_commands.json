@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/hongnhung/Documents/GitHub/scratch-cnn/build",
+  "command": "/usr/bin/clang++ -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -o CMakeFiles/neural-network-scratch.dir/main.cpp.o -c /Users/hongnhung/Documents/GitHub/scratch-cnn/main.cpp",
+  "file": "/Users/hongnhung/Documents/GitHub/scratch-cnn/main.cpp",
+  "output": "CMakeFiles/neural-network-scratch.dir/main.cpp.o"
+}
+]
