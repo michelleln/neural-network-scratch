@@ -220,5 +220,5 @@ public:
         return Matrix::multiply(m, 1 / x);
     }
 };
-
 #endif
+
