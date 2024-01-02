@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <thread>
+
 #include "FullyConnectedLayer.cpp"
 
 class Network
