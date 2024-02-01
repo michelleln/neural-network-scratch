@@ -68,8 +68,8 @@ int main()
 
     // initiate a network with only 1 hidden layer that has 50 neurons
     std::vector<std::vector<int>> networkDimension = {
-        {784, 50},
-        {50, 10}};
+        {784, 30},
+        {30, 10}};
 
     Network myNetwork = Network(networkDimension);
 
